@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>No messages recieved yet.</title>
+    <link rel="stylesheet" href="https://unpkg.com/xp.css">
+    <style>
+    .window {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+    }
+    </style>
+  </head>
+  <body>
+    
+    <script src="/socket.io/socket.io.js"></script>
+
+
+    <div class="window" style="width: 300px">
+    <div class="title-bar">
+      <div class="title-bar-text">Tabchat</div>
+      <div class="title-bar-controls">
+        <button aria-label="Minimize"></button>
+        <button aria-label="Maximize"></button>
+        <button aria-label="Close"></button>
+      </div>
+    </div>
+    <div class="window-body">
+      <form id="form" action="">
+        <input id="input" autocomplete="off" placeholder="type message..."/><button>Send</button>
+        <input id="setName" autocomplete="off" placeholder="type username..."/><button>Set</button>
+      </form>
+
+
+    </div>
+  </div>
+    <script>
+      var socket = io();
+
+      var form = document.getElementById('form');
+      var usernameAdd = document.getElementById('usernameAdd');
+      var input = document.getElementById('input');
+
+      var username;
+
+
+      form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        if (input.value) {
+          socket.emit('chat message', (setName.value + ": " + input.value));
+          input.value = '';
+        }
+      });
+
+      socket.on('chat message', function(msg) {
+        document.title = msg;
+      });
+    </script>
+  </body>
+</html>
